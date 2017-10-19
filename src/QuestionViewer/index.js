@@ -2,12 +2,13 @@ import { Link } from 'inferno-router';
 import linkState from 'linkstate';
 import Component from 'inferno-component';
 var Remarkable = require('remarkable');
+var plugin = require('remarkable-katex');
 var md = new Remarkable({
   html:         true,
   linkify:      true,
   typographer:  true,
 });
-
+md.use(plugin);
 class QuestionViewer extends Component {
   state = {
     question: {},
