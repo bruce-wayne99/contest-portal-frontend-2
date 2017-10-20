@@ -58,19 +58,32 @@ class QuestionViewer extends Component {
     if (!res2.error) this.setState({ maxUnlocked: res2.maxUnlock, loading: false })
     else this.setState({ error: res2.error, loading: false })
   }
-  checkAnswer = e => {
-    e.preventDefault();
-    const answer = e.target[0].value
-    const qno = this.props.params.qno
-    window.alert(answer) //answer given by user
-    window.alert(qno) // question num
-    console.log(`/api/questions/${qno}/answer`) //url for post request 
 
-    // XXX: Need to fill in this stub
-    // Read fetch documentation on how to send post request and
-    // display output in window.alert
-  }
+		checkAnswer = e => {
+			e.preventDefault();
+			const answer = e.target[0].value;
+			const qno = this.props.params.qno;
+			var url = `/api/questions/${qno}/answer`
+			var opt = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+					email: window.email,
+				},
+				body: `answer=${answer}`,
+			};
 
+			fetch(url, opt)
+			.then(response => response.json())
+			.then(json => {
+				console.log(json.response);
+				if(json.response){
+					alert("Correct!!");
+				}
+				else alert("Wrong Answer!");
+			});
+	}
+	
   render() {
     const { loading, question, error, answer , maxUnlocked, maxQuestion, status} = this.state
     const qno = parseInt(this.props.params.qno,10)
