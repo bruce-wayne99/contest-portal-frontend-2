@@ -1,6 +1,9 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 import './Loading.css';
+import './iiit.png'
+import './felicity.png'
+import './felicity1.jpg'
 
 class Loading extends Component {
     render(props) {
