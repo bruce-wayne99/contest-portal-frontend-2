@@ -1,4 +1,4 @@
-import Component from 'inferno-component';
+  import Component from 'inferno-component';
 class Scoreboard extends Component {
   state = {
     scores: [],
