@@ -1,6 +1,7 @@
 import { Link } from 'inferno-router';
 import linkState from 'linkstate';
 import Component from 'inferno-component';
+import Loading from '../components/Loading/Loading';
 
 var Remarkable = require('remarkable');
 var plugin = require('remarkable-katex');
@@ -13,7 +14,7 @@ md.use(plugin);
 class QuestionViewer extends Component {
   state = {
     maxQuestion : '',
-    maxUnlocked : '', 
+    maxUnlocked : '',
     question: {},
     loading: true,
     error: '',
@@ -32,7 +33,7 @@ class QuestionViewer extends Component {
       if (!res.error) this.setState({ status: res.status, loading: false })
       else this.setState({ error: res.error, loading: false })
     }
-    
+
     res = await res.json();
 
     var res1 = await window.fetchWithAuth(`/users`);
@@ -47,7 +48,7 @@ class QuestionViewer extends Component {
         }
     var res2 = await window.fetchWithAuth(`/users/${user_id}`);
     res2 = await res2.json();
-    
+
     var res3 = await window.fetchWithAuth('/questions');
     res3 = await res3.json();
     if (!res3.error) this.setState({ maxQuestion: res3.length, loading: false })
@@ -89,7 +90,7 @@ class QuestionViewer extends Component {
 				else alert("Wrong Answer!");
 			});
 	}
-	
+
   render() {
     const { loading, question, error, answer , maxUnlocked, maxQuestion, status} = this.state
     const qno = parseInt(this.props.params.qno,10)
@@ -110,6 +111,7 @@ class QuestionViewer extends Component {
         <p>
           <div dangerouslySetInnerHTML={{__html: md.render(`${question.body}`)}} />
         </p>
+        {question.image && <Loading name={question.image}/>}
         <form onSubmit={this.checkAnswer}>
           <label for='answer'>Answer</label>
           <input type='text' name='answer' value={answer} onInput={linkState(this, 'answer')} />
@@ -130,7 +132,7 @@ class QuestionViewer extends Component {
         }
       </div>
     )
- 
+
   }
 }
 
