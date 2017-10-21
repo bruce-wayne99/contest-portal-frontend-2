@@ -63,6 +63,9 @@ class QuestionViewer extends Component {
 			e.preventDefault();
 			const answer = e.target[0].value;
 			const qno = this.props.params.qno;
+      const iqno = parseInt(this.props.params.qno,10);
+      const {maxQuestion} = this.state;
+
 			var url = `/api/questions/${qno}/answer`
 			var opt = {
 				method: "POST",
@@ -78,7 +81,10 @@ class QuestionViewer extends Component {
 			.then(json => {
 				console.log(json.response);
 				if(json.response){
-					alert("Correct!!");
+          if(iqno < maxQuestion)
+          window.location.href = `/question/${iqno+1}`
+          else
+            alert("You finished the contest! Congrats");
 				}
 				else alert("Wrong Answer!");
 			});
