@@ -10,8 +10,11 @@ class QuestionsList extends Component {
     error: '',
   }
   async componentDidMount() {
-    var res = await fetchWithAuth('/questions');
-    res = await res.json();
+    if(window.email)
+    {
+      var res = await fetchWithAuth('/questions');
+      res = await res.json();
+    }
     if (!res.error) this.setState({ questions: res, loading: false })
     else this.setState({ error: res.error, loading: false })
   }
